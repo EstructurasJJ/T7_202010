@@ -2,8 +2,6 @@ package model.data_structures;
 
 import java.util.Iterator;
 
-import model.logic.Comparendo;
-
 public class ListaEnlazadaQueue <T extends Comparable<T>> implements Iterable, IListaEnlazadaQueue<T>
 {
 	

@@ -1,10 +1,10 @@
 package model.data_structures;
 
-import model.logic.Comparendo;
+import model.logic.Vertices_Bogota_Info;
 
 //TODO Ambos
 
-public class Node <T>
+public class Node <T extends Comparable> implements Comparable<Node>
 {
 	public T data;
 	Node<T> siguiente;
@@ -14,16 +14,6 @@ public class Node <T>
 		data = elemento;
 		siguiente = null;
 	}
-	
-//	public Comparendo darInfoDelComparendo()
-//	{
-//		return viejoCompa;
-//	}
-//	
-//	public void definirComparendo(Comparendo nuevo)
-//	{
-//		viejoCompa = nuevo;
-//	}
 	
 	public T darData()
 	{
@@ -37,6 +27,14 @@ public class Node <T>
 	public void cambiarSiguiente(Node<T> primerElemento)
 	{
 		siguiente = primerElemento;
+	}
+
+	
+	/////////////////////////////////////////////////NO LO USAMOS
+	@Override
+	public int compareTo(Node o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }
