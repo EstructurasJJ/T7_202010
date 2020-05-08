@@ -6,6 +6,13 @@ public class Vertices_Bogota_Info implements Comparable<Vertices_Bogota_Info>
 	private double longitud;
 	private double latitud;
 	
+	
+	public Vertices_Bogota_Info()
+	{
+		longitud = 0;
+		latitud = 0;
+	}
+	
 	public Vertices_Bogota_Info(double iLongitud, double iLatitud)
 	{
 		longitud = iLongitud;

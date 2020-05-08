@@ -24,6 +24,7 @@ public class Graph<K extends Comparable<K>,V extends Comparable<V>>
 
 		vertis  = new TablaHashSondeoLineal<K, V>(V);
 		conectados = 0;
+		arcos=new ListaEnlazadaQueue<Arco>();
 	}
 
 	//Dar atributos
@@ -43,8 +44,11 @@ public class Graph<K extends Comparable<K>,V extends Comparable<V>>
 	//Agregar arco
 	public void addEdge (K idVerticeInicial, K idVerticeFinal, double cost)
 	{
+		
 		if( vertis.contains(idVerticeInicial) || vertis.contains(idVerticeFinal))
 		{
+			System.out.println(idVerticeInicial);
+			System.out.println(idVerticeFinal);
 			Vertice inicial = (Vertice) vertis.getSet(idVerticeInicial);
 			Vertice fin = (Vertice) vertis.getSet(idVerticeFinal);
 
@@ -53,6 +57,8 @@ public class Graph<K extends Comparable<K>,V extends Comparable<V>>
 
 			inicial.agregarArco(i_f);
 			fin.agregarArco(f_i);
+			
+			arcos.enqueue(i_f);
 
 			E++;
 		}

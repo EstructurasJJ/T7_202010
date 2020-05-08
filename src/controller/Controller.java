@@ -16,6 +16,9 @@ public class Controller {
 	
 	public final static String VERTIBOB = "./data/bogota_vertices.txt";
 	public final static String ARCAJUANJO = "./data/bogota_arcos.txt";
+	public final static String ESTACIONES = "./data/estacionpolicia.geojson.json";
+	public final static String CHIQUITO = "./data/chiquito.json";
+	public final static String CREADO="./data/grafoCreado.json";
 
 	public Controller ()
 	{
@@ -50,7 +53,20 @@ public class Controller {
 				modelo.leerTxtArc(ARCAJUANJO);
 
 				break;
-
+			
+			case 2:
+				
+				modelo.leerGeoJsonEstaciones(ESTACIONES); 
+				
+				break;
+				
+			case 3:
+				modelo.imprimirLaCosaBienHecha();
+				
+				break;
+			case 4:
+				modelo.leerJsonGrafo(CREADO);
+				break;
 			case 6:
 
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
