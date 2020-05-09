@@ -55,6 +55,9 @@ public class Maps<K extends Comparable<K>,V extends Comparable<V>> extends MapVi
 			         {
 			        	 map = getMap();
 			        	 
+			        	 //CREAR EL MAPA
+			        	 initMap( map );
+			        	 
 			        	 // Vertices
 			        	 CircleOptions middleLocOpt= new CircleOptions(); 
 			        	 middleLocOpt.setFillColor("#ffff4c");  
@@ -72,7 +75,7 @@ public class Maps<K extends Comparable<K>,V extends Comparable<V>> extends MapVi
 			        	 Iterator vertex = vertices.keys();
 			        	 
 			        	 int cont = 0;
-			        	 while(vertex.hasNext() && cont<5000)
+			        	 while(vertex.hasNext() && cont<10000)
 			        	 {
 			        		 //Recupero el vertice y su información
 			        		 K vertiID = (K) vertex.next();
@@ -171,8 +174,7 @@ public class Maps<K extends Comparable<K>,V extends Comparable<V>> extends MapVi
 			        	 
 			        	 
 			        	 
-			        	 //CREAR EL MAPA
-			        	 initMap( map );
+
 			         }
 				}
 
