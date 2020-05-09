@@ -51,24 +51,19 @@ public class Controller {
 
 				modelo.leerTxtVertix(VERTIBOB);
 				modelo.leerTxtArc(ARCAJUANJO);
-
+				modelo.leerGeoJsonEstaciones(ESTACIONES); 
+				System.out.println("El total de estaciones de policia es: " + modelo.darEstaciones().darTamanio() + "\n----------------------");
+				
 				break;
 			
 			case 2:
 				
-				modelo.leerGeoJsonEstaciones(ESTACIONES); 
-				System.out.println("El total de estaciones de policia es: " + modelo.darEstaciones().darTamanio() + "\n----------------------");
+				modelo.imprimirLaCosaBienHecha();
+				System.out.println("Se creo el Json del grafo de forma exitosa. \n----------------");
 
 				break;
 				
 			case 3:
-				
-				modelo.imprimirLaCosaBienHecha();
-				System.out.println("Se creo el Json del grafo de forma exitosa. \n----------------");
-				
-				break;
-				
-			case 4:
 				
 				modelo.leerJsonGrafo(CREADO);
 				
@@ -76,10 +71,12 @@ public class Controller {
 				System.out.println("Total de Vertices: " + totalVertices + "\n--------------");
 				System.out.println("Numero de arcos: " + modelo.darGrafo().darE() + "\n---------------");
 				
+				modelo.leerGeoJsonEstaciones(ESTACIONES); 
+				System.out.println("El total de estaciones de policia es: " + modelo.darEstaciones().darTamanio() + "\n----------------------");
 				
 				break;
 				
-			case 5:
+			case 4:
 				
 				Maps mapa = new Maps(modelo);
 				System.out.println("Es billísimo");
@@ -87,15 +84,13 @@ public class Controller {
 				
 				break;
 				
-			case 6:
+			case 5:
 
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 				lector.close();
 				fin = true;
 
 				break;	
-				
-
 
 			default: 
 

@@ -24,6 +24,7 @@ import com.teamdev.jxmaps.swing.MapView;
 
 import model.data_structures.Arco;
 import model.data_structures.Graph;
+import model.data_structures.Node;
 import model.data_structures.TablaHashSondeoLineal;
 import model.data_structures.Vertice;
 
@@ -33,9 +34,10 @@ public class Maps<K extends Comparable<K>,V extends Comparable<V>> extends MapVi
 	private Map map;
 	private Modelo modelo;
 	
-	//Coordenadas a pintar
-	private LatLng[] locations = {new LatLng(4.6285797,-74.0649341), new LatLng(4.608550, -74.076443), new LatLng(4.601363, -74.0661), new LatLng(4.5954979,-74.068708) }; //Coordenadas de los vertices inicio, intermedio y fin.		
-
+	//Coordenadas a pintar RANGO VALIDO
+	private LatLng[] locations = {new LatLng(4.597714, -74.094723), new LatLng(4.621360, -74.094723), new LatLng(4.597714, -74.062707), new LatLng(4.621360, -74.062707) }; //Coordenadas de los vertices inicio, intermedio y fin.		
+	private LatLng centro = new LatLng(4.609537, -74.078715);
+	
 	public Maps(Modelo modelo)
 	{	
 		//Recupero el grafo
@@ -52,16 +54,16 @@ public class Maps<K extends Comparable<K>,V extends Comparable<V>> extends MapVi
 			         if ( status == MapStatus.MAP_STATUS_OK )
 			         {
 			        	 map = getMap();
-
-			        	 // Configuracion de localizaciones intermedias del path (circulos)
+			        	 
+			        	 // Vertices
 			        	 CircleOptions middleLocOpt= new CircleOptions(); 
-			        	 middleLocOpt.setFillColor("#00FF00");  // color de relleno
+			        	 middleLocOpt.setFillColor("#ffff4c");  
 			        	 middleLocOpt.setFillOpacity(0.5);
 			        	 middleLocOpt.setStrokeWeight(1.0);
 			        	 
-			        	//Configuracion de la linea del camino
+			        	//Camino
 			        	 PolylineOptions pathOpt = new PolylineOptions();
-			        	 pathOpt.setStrokeColor("#0000FF");	  // color de linea	
+			        	 pathOpt.setStrokeColor("#000019 ");	  
 			        	 pathOpt.setStrokeOpacity(1.75);
 			        	 pathOpt.setStrokeWeight(1.5);
 			        	 pathOpt.setGeodesic(false);
@@ -70,7 +72,7 @@ public class Maps<K extends Comparable<K>,V extends Comparable<V>> extends MapVi
 			        	 Iterator vertex = vertices.keys();
 			        	 
 			        	 int cont = 0;
-			        	 while(vertex.hasNext() && cont<500)
+			        	 while(vertex.hasNext() && cont<5000)
 			        	 {
 			        		 //Recupero el vertice y su información
 			        		 K vertiID = (K) vertex.next();
@@ -90,7 +92,7 @@ public class Maps<K extends Comparable<K>,V extends Comparable<V>> extends MapVi
 				        		 Circle middleLoc1 = new Circle(map);
 					        	 middleLoc1.setOptions(middleLocOpt);
 					        	 middleLoc1.setCenter(coor); 
-					        	 middleLoc1.setRadius(20);
+					        	 middleLoc1.setRadius(15);
 					        	 
 					        	 //Recupero los vecinos del vertice actual.
 					        	 Iterator vecinos = vertiActual.iterator();
@@ -132,8 +134,44 @@ public class Maps<K extends Comparable<K>,V extends Comparable<V>> extends MapVi
 					        	 path.setOptions(pathOpt); 
 					        	 path.setPath(locat);
 					        	 cont++;
-			        		 }
+					   		 }
 			        	 }
+			        	 
+			        	 
+			        	 
+			        	 /////////////////////////////////////////////////////////////////////POLICIA
+			        	 
+			        	 Node<EstPol> elQueNoEstudiaEsPoliciaNacional = modelo.darEstaciones().darPrimerElemento();
+			        	 
+			        	 while(elQueNoEstudiaEsPoliciaNacional != null)
+			        	 {
+			        		 double lon = elQueNoEstudiaEsPoliciaNacional.darData().darlongitud();
+			        		 double lat = elQueNoEstudiaEsPoliciaNacional.darData().darlatitud();
+			        		 
+			        		 if(lon>=-74.094723 && lon<=-74.062707 && lat>=4.597714 && lat<=4.621360)
+			        		 {
+			        			 LatLng policia = new LatLng(lat, lon);
+			        			 
+			        			 Circle poli = new Circle(map);
+			        			 poli.setCenter(policia);
+			        			 poli.setRadius(30);
+			        			 
+			        			 CircleOptions co = new CircleOptions();
+			        			 co.setStrokeColor("#ff0000");
+			        			 co.setFillColor("#ff0000");
+					        	 co.setFillOpacity(0.5);
+					        	 co.setStrokeWeight(1.0);
+			        			 
+			        			 poli.setOptions(co);
+			        			 poli.setVisible(true);
+			        		 }
+			        		 
+			        		 elQueNoEstudiaEsPoliciaNacional = elQueNoEstudiaEsPoliciaNacional.darSiguiente();
+			        	 }
+			        	 
+			        	 
+			        	 
+			        	 //CREAR EL MAPA
 			        	 initMap( map );
 			         }
 				}
@@ -151,8 +189,8 @@ public class Maps<K extends Comparable<K>,V extends Comparable<V>> extends MapVi
 		mapOptions.setMapTypeControlOptions(controlOptions);
 
 		map.setOptions(mapOptions);
-        map.setCenter(locations[2]);
-		map.setZoom(14.0);
+        map.setCenter(centro);
+		map.setZoom(15.0);
 		
 	}
 	
