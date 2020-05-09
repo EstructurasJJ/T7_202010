@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.data_structures.Node;
+import model.logic.Maps;
 import model.logic.Modelo;
 import view.View;
 
@@ -80,7 +81,9 @@ public class Controller {
 				
 			case 5:
 				
-
+				Maps mapa = new Maps(modelo);
+				System.out.println("Es billísimo");
+				mapa.initFrame("Es billísimo");
 				
 				break;
 				
