@@ -46,9 +46,7 @@ public class Graph<K extends Comparable<K>,V extends Comparable<V>>
 	{
 		
 		if( vertis.contains(idVerticeInicial) || vertis.contains(idVerticeFinal))
-		{
-			System.out.println(idVerticeInicial);
-			System.out.println(idVerticeFinal);
+		{			
 			Vertice inicial = (Vertice) vertis.getSet(idVerticeInicial);
 			Vertice fin = (Vertice) vertis.getSet(idVerticeFinal);
 

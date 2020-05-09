@@ -16,8 +16,7 @@ public class Controller {
 	
 	public final static String VERTIBOB = "./data/bogota_vertices.txt";
 	public final static String ARCAJUANJO = "./data/bogota_arcos.txt";
-	public final static String ESTACIONES = "./data/estacionpolicia.geojson.json";
-	public final static String CHIQUITO = "./data/chiquito.json";
+	public final static String ESTACIONES = "./data/estacionpolicia.geojson";
 	public final static String CREADO="./data/grafoCreado.json";
 
 	public Controller ()
@@ -57,16 +56,34 @@ public class Controller {
 			case 2:
 				
 				modelo.leerGeoJsonEstaciones(ESTACIONES); 
-				
+				System.out.println("El total de estaciones de policia es: " + modelo.darEstaciones().darTamanio() + "\n----------------------");
+
 				break;
 				
 			case 3:
+				
 				modelo.imprimirLaCosaBienHecha();
+				System.out.println("Se creo el Json del grafo de forma exitosa. \n----------------");
 				
 				break;
+				
 			case 4:
+				
 				modelo.leerJsonGrafo(CREADO);
+				
+				int totalVertices = modelo.darGrafo().darV()-1;
+				System.out.println("Total de Vertices: " + totalVertices + "\n--------------");
+				System.out.println("Numero de arcos: " + modelo.darGrafo().darE() + "\n---------------");
+				
+				
 				break;
+				
+			case 5:
+				
+
+				
+				break;
+				
 			case 6:
 
 				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
@@ -74,6 +91,8 @@ public class Controller {
 				fin = true;
 
 				break;	
+				
+
 
 			default: 
 

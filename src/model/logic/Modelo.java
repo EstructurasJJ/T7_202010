@@ -31,8 +31,6 @@ import model.data_structures.Vertice;
 
 public class Modelo 
 {
-
-
 	//Atributos necesarios para la lectura desde txt
 	private Vertice vertiAgregar;
 	private Vertices_Bogota_Info infoVertice;
@@ -71,10 +69,15 @@ public class Modelo
 	{
 		return cositaBienHecha;
 	}
+	
+	public ListaEnlazadaQueue<EstPol> darEstaciones()
+	{
+		return estaciones;
+	}
 
 	/////////////////////////////////////////////////////////////////////////////////LECTURA de TXT 
 
-	public void leerTxtVertix(String archivo) throws FileNotFoundException, IOException 
+ 	public void leerTxtVertix(String archivo) throws FileNotFoundException, IOException 
 	{
 		FileReader f = new FileReader(archivo);
 		BufferedReader b = new BufferedReader(f);
@@ -93,8 +96,8 @@ public class Modelo
 
 			infoVertice.asignarLon(Longitud);
 			infoVertice.asignarLat(Latitud);
+			
 			vertiAgregar.asignarId(ID);
-
 			vertiAgregar.cambiarInfo(infoVertice);
 
 			cositaBienHecha.addVertex(ID, vertiAgregar);
@@ -256,7 +259,7 @@ public class Modelo
 				parteDelaEstacion = "";
 
 				estaciones.enqueue(porAgregar);
-				System.out.println(porAgregar.darobjetcID());
+				//System.out.println(porAgregar.darobjetcID());
 				porAgregar = null;
 				//System.out.println("///AGREGADO///");
 			}
@@ -344,6 +347,8 @@ public class Modelo
 
 	public void leerJsonGrafo(String pRuta)
 	{
+		cositaBienHecha = new Graph(1);
+		
 		JsonParser parser= new JsonParser();
 		FileReader fr=null;
 
@@ -358,10 +363,6 @@ public class Modelo
 
 		JsonElement datos=parser.parse(fr);
 		dumpJSONElementGrafo(datos);
-
-
-		System.out.println(cositaBienHecha.darV());
-		System.out.println(cositaBienHecha.darE());
 	}
 
 	private void dumpJSONElementGrafo(JsonElement elemento)
@@ -399,66 +400,61 @@ public class Modelo
 
 			if(infoPorAgregar == null)
 			{
-				infoPorAgregar=new Vertices_Bogota_Info();
+				infoPorAgregar=new Vertices_Bogota_Info (0,0);
 			}
-
 			if(parteDelVerti.equals("OBJECTID"))
 			{
-				vertiPorAgregar=new Vertice<Integer, Vertices_Bogota_Info>(valor.getAsInt(), null);
-				infoPorAgregar=new Vertices_Bogota_Info();
+				vertiPorAgregar = new Vertice(valor.getAsInt(), infoPorAgregar);
+				infoPorAgregar = new Vertices_Bogota_Info (0,0);
+				
 				//System.out.println(valor);
 				parteDelVerti = "";
 			}
 			else if (parteDelVerti.equals("LATITUD"))
 			{
 				infoPorAgregar.asignarLat(valor.getAsDouble());
+				
 				//System.out.println(compaAgregar.darFecha_Hora().toString());
 				parteDelVerti = "";
 			}
 			else if (parteDelVerti.equals("LONGITUD"))
 			{
 				infoPorAgregar.asignarLon(valor.getAsDouble());
-				//System.out.println(valor);
-				parteDelVerti = "";
-				//Agregar
-				parteDelVerti = "";
 				vertiPorAgregar.cambiarInfo(infoPorAgregar);
-				System.out.println(vertiPorAgregar.darId());
-				cositaBienHecha.addVertex(vertiPorAgregar.darId(), infoPorAgregar);
+				
+				//Agregar VERTICE
+				cositaBienHecha.addVertex(vertiPorAgregar.darId(), vertiPorAgregar);
 
+				parteDelVerti = "";
 				vertiPorAgregar=null;
 				infoPorAgregar=null;
 
-
 			}
-
 			else if (parteDelVerti.equals("ORIGEN"))
 			{
-
-				origenPorIngresar=valor.getAsInt();
+				origenPorIngresar = valor.getAsInt();
 			}
 
 			else if (parteDelVerti.equals("DESTINO"))
 			{
-				destinoPorIngresar=valor.getAsInt();
+				destinoPorIngresar = valor.getAsInt();
 			}
 			else if (parteDelVerti.equals("COSTO"))
 			{
-				costoPorAgregar=valor.getAsDouble();
-				System.out.println("Llega");
+				costoPorAgregar = valor.getAsDouble();
+				
+				//Añadir Arco
 				cositaBienHecha.addEdge(origenPorIngresar, destinoPorIngresar, costoPorAgregar);
+				
+				parteDelVerti = "";
 				origenPorIngresar=0;
 				destinoPorIngresar=0;
 				costoPorAgregar=0;
-
 			}
-
 			else if (parteDelVerti.equals("coordinates"))
 			{
 				agregarCoordenadaGrafo(valor.getAsDouble());				
 			}
-
-
 			else
 			{
 				//Es algo que no nos interesa
@@ -472,10 +468,7 @@ public class Modelo
 		{
 			System.out.println("Es otra cosa");
 		}
-
-
 	}
-
 
 	public void componentesDelGrafo(String palabra)
 	{
@@ -529,18 +522,14 @@ public class Modelo
 	}
 
 
-
-
-
 	///////////////////////////////////////////////////////////////////Imprimir el grafo
-
 
 	public void imprimirLaCosaBienHecha()
 	{
 
-		Graph base=cositaBienHecha;
+		Graph base = cositaBienHecha;
 
-		TablaHashSondeoLineal vertex=base.vertis;
+		TablaHashSondeoLineal vertex = base.vertis;
 		ListaEnlazadaQueue arcos = base.arcos;
 		char comillas = '"';
 
@@ -568,11 +557,11 @@ public class Modelo
 			//Lo que se debe imprimir para cada vértice
 			//vertex.darDatos()
 
-			for (int i=0;i<2;i++)
+			for (int i=0;i<cositaBienHecha.darV()-1;i++)
 			{
-				Vertice aux = (Vertice)vertex.getSet(i);
-				Integer id = (Integer)aux.darId();
-				Vertices_Bogota_Info info = (Vertices_Bogota_Info)aux.darInfo();
+				Vertice aux = (Vertice) vertex.getSet(i);
+				Integer id = (Integer) aux.darId();
+				Vertices_Bogota_Info info = (Vertices_Bogota_Info) aux.darInfo();
 				Double lat = info.darLat(), lon=info.darLon();
 
 				file.write("{");	
@@ -597,11 +586,11 @@ public class Modelo
 
 			//Lo que se debe imprimir para cada arco:
 
-			Node actual=arcos.darPrimerElemento();
-
+			Node actual = arcos.darPrimerElemento();
+			
 			while (actual!=null)
 			{
-				Arco aux=(Arco)actual.data;
+				Arco aux= (Arco) actual.data;
 
 				file.write("{");	
 				file.write(comillas+"type"+comillas+":"+comillas+"Feature"+comillas+",");
@@ -618,16 +607,16 @@ public class Modelo
 
 				//Este depende de si es el último o de si quedan más con la coma
 
-				//				if (actual.darSiguiente()==null)
-				//				{
+				if (actual.darSiguiente()==null)
+				{
 				file.write("}");
-				//				}
-				//				else
-				//				{
-				//					file.write("},");
-				//				}
+				}
+				else
+				{
+				file.write("},");
+				}
 
-				actual=null;
+				actual= actual.darSiguiente();
 			}
 
 
@@ -644,5 +633,7 @@ public class Modelo
 			e.printStackTrace();
 		}
 	}
+	
+	
 }
 

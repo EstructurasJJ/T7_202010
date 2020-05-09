@@ -1,6 +1,5 @@
 package model.data_structures;
 
-import model.logic.Vertices_Bogota_Info;
 
 //TODO Ambos
 
