@@ -17,7 +17,7 @@ public class Controller {
 	
 	public final static String VERTIBOB = "./data/bogota_vertices.txt";
 	public final static String ARCAJUANJO = "./data/bogota_arcos.txt";
-	public final static String ESTACIONES = "./data/estacionpolicia.geojson";
+	public final static String ESTACIONES = "./data/estacionpolicia.geojson.json";
 	public final static String CREADO="./data/grafoCreado.json";
 
 	public Controller ()
